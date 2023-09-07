@@ -14,3 +14,11 @@ ng new customers-app
 ng serve -o
 ng serve --open
 ```
+
+### Generar nueva clase
+
+> Desde src/nombre clase ejecutar:
+
+```
+ng generate class footer.component
+```
