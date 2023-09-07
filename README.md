@@ -15,10 +15,25 @@ ng serve -o
 ng serve --open
 ```
 
-### Generar nueva clase
+### Generar nuevo componente(manual)
 
-> Desde src/nombre clase ejecutar:
+> Desde src/nombre componente ejecutar:
 
 ```
 ng generate class footer.component
+```
+
+### Generar componente(automático con "generate")
+
+> Forma larga
+
+```
+ng generate component directive
+
+```
+
+> Forma corta
+
+```
+ng g c directive
 ```
