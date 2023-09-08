@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { DirectiveComponent } from './directive/directive.component';
 import { CustomersComponent } from './customers/customers.component';
+import { CustomerService } from './customers/customer.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { CustomersComponent } from './customers/customers.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [CustomerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

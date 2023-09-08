@@ -2,6 +2,12 @@
 
 ## ANGULAR
 
+#### Estructura
+
+> Component.ts = Controller
+> Component.html = View
+> Service.ts = Model(Lógica negocio)
+
 ### Crear app
 
 ```
@@ -36,4 +42,10 @@ ng generate component directive
 
 ```
 ng g c directive
+```
+
+### Generar servicio
+
+```
+ng generate service customer
 ```
