@@ -10,11 +10,12 @@ export class CustomersComponent  implements OnInit {
 
   customers: Customer[] | undefined;
   
-  constructor(private customerService: CustomerService) {
-
-  }
+  constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
-    this.customers = this.customerService.getCustomers();
+    this.customerService.getCustomers().subscribe(
+      // Función anónima
+      customers => this.customers = customers  
+    );
   }
 }
