@@ -1,7 +1,7 @@
 export class Customer {
-    id: number;
-    name: string;
-    surname: string;
-    createdAt: string;
-    email: string;
+    id: number | undefined;
+    name: string | undefined;
+    surname: string | undefined;
+    createdAt: string | undefined;
+    email: string | undefined;
 }
