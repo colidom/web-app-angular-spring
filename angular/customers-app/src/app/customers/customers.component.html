@@ -1,1 +1,26 @@
-<p>customers works!</p>
+<div class="card text-bg-primary mb-3">
+  <div class="card-header">Customers</div>
+  <div class="card-body">
+    <h5 class="card-title">Customers list</h5>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Surname</th>
+          <th>Date</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customer of customers">
+          <td>{{ customer.id }}</td>
+          <td>{{ customer.name }}</td>
+          <td>{{ customer.surname }}</td>
+          <td>{{ customer.createdAt }}</td>
+          <td>{{ customer.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
