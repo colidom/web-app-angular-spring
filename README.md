@@ -49,3 +49,9 @@ ng g c directive
 ```
 ng generate service customer
 ```
+
+
+###Instalar Bootstrap, Jquery y Popper con ´npm´
+```
+npm install bootstrap@4.0.0-beta.2 jquery popper.js --save
+```
