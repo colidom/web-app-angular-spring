@@ -52,7 +52,7 @@ ng generate service customer
 
 ## Spring Boot
 
-### Endpints
+### Endpoints
 
 #### GET /customers
 
