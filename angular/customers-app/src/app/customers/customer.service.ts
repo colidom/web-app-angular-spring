@@ -2,14 +2,19 @@ import { Injectable } from '@angular/core';
 import { Customer } from './customer';
 import { CUSTOMERS } from './customers.json';
 import { of, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { UrlSegment } from '@angular/router';
+
 @Injectable({
   providedIn: 'root'
 })
 export class CustomerService {
+  private urlEndpoint: string = 'http://localhost:8080/api/customers';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getCustomers(): Observable<Customer[]>{ 
-    return of(CUSTOMERS); // Convert to stream
+    // return of(CUSTOMERS); // Convert to stream
+    return this.http.get<Customer[]>(this.urlEndpoint)
   };
 }
