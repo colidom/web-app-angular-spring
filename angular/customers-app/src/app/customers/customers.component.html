@@ -12,7 +12,13 @@
         Create customer
       </button>
     </div>
-    <table class="table table-bordered table-striped">
+    <div *ngIf="customers.length == 0" class="alert alert-info">
+      No records in the database!
+    </div>
+    <table
+      class="table table-bordered table-striped"
+      *ngIf="customers.length > 0"
+    >
       <thead>
         <tr>
           <th>Id</th>
