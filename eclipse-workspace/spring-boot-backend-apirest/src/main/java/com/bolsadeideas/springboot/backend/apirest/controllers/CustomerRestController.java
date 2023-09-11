@@ -49,6 +49,7 @@ public class CustomerRestController {
 		Customer currentCustomer = customerService.findById(id);
 		currentCustomer.setName(customer.getName());
 		currentCustomer.setSurname(customer.getSurname());
+		currentCustomer.setBirthDate(customer.getBirthDate());
 		currentCustomer.setEmail(customer.getEmail());
 		
 		return customerService.save(currentCustomer);
