@@ -10,6 +10,8 @@ import { CustomersComponent } from './customers/customers.component';
 import { CustomerService } from './customers/customer.service';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { FormComponent } from './customers/form.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {path: '', redirectTo: '/customers', pathMatch: 'full'},
@@ -23,11 +25,13 @@ const routes: Routes = [
     HeaderComponent,
     FooterComponent,
     DirectiveComponent,
-    CustomersComponent
+    CustomersComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     RouterModule.forRoot(routes)
   ],
   providers: [CustomerService],
