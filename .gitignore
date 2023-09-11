@@ -25,3 +25,6 @@ replay_pid*
 
 # Java
 .metadata/
+
+# Node
+node_modules/
