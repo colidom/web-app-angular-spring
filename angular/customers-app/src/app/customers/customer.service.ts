@@ -20,12 +20,12 @@ export class CustomerService {
     return this.http.get<Customer[]>(this.urlEndpoint)
   };
 
-  create(customer: Customer) : Observable<Customer> {
-    return this.http.post<Customer>(this.urlEndpoint, customer, {headers: this.httpHeaders})
-  }
-
   getCustomer(id: any): Observable<Customer> {
     return this.http.get<Customer>(`${this.urlEndpoint}/${id}`)
+  }
+
+  create(customer: Customer) : Observable<Customer> {
+    return this.http.post<Customer>(this.urlEndpoint, customer, {headers: this.httpHeaders})
   }
 
   update(customer: Customer) : Observable<Customer> {
