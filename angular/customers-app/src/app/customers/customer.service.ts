@@ -11,7 +11,8 @@ import { UrlSegment } from '@angular/router';
 export class CustomerService {
   private urlEndpoint: string = 'http://localhost:8080/api/customers';
 
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
+  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  
   constructor(private http: HttpClient) { }
 
   getCustomers(): Observable<Customer[]>{ 
@@ -21,5 +22,9 @@ export class CustomerService {
 
   create(customer: Customer) : Observable<Customer> {
     return this.http.post<Customer>(this.urlEndpoint, customer, {headers: this.httpHeaders})
+  }
+
+  getCustomer(id: any): Observable<Customer> {
+    return this.http.get<Customer>(`${this.urlEndpoint}/${id}`)
   }
 }
