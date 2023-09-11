@@ -6,8 +6,8 @@ import { Customer } from './customer';
   templateUrl: './form.component.html'
 })
 export class FormComponent {
-  private customer: Customer = new Customer();
-  private title:string = "Customer creating"
+  public customer: Customer = new Customer();
+  public title:string = "Customer creation"
   constructor() {}
 
   public create(): void {

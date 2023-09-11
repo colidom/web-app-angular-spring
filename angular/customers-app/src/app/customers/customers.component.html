@@ -2,6 +2,16 @@
   <div class="card-header">Customers</div>
   <div class="card-body">
     <h5 class="card-title">Customers list</h5>
+
+    <div class="my-2 text-left">
+      <button
+        class="btn btn-rounded btn-primary"
+        type="button"
+        [routerLink]="['/customers/form']"
+      >
+        Create customer
+      </button>
+    </div>
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
