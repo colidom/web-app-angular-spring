@@ -22,6 +22,7 @@
           <th>Created at</th>
           <th>Email</th>
           <th>Edit</th>
+          <th>Delete</th>
         </tr>
       </thead>
       <tbody>
@@ -35,11 +36,21 @@
           <td>
             <button
               type="button"
-              name="button"
+              name="edit"
               [routerLink]="['/customers/form', customer.id]"
               class="btn btn-primary"
             >
               Edit
+            </button>
+          </td>
+          <td>
+            <button
+              type="button"
+              name="delete"
+              (click)="delete(customer)"
+              class="btn btn-danger"
+            >
+              Delete
             </button>
           </td>
         </tr>
