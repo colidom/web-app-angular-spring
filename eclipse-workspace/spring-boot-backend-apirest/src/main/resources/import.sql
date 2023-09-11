@@ -1,0 +1,15 @@
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Luke', 'Skywalker', '1951-03-25', 'luke@jedi.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Leia', 'Organa', '1951-03-25', 'leia@rebelalliance.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Han', 'Solo', '1941-04-29', 'han@smuggler.net');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Darth', 'Vader', '1930-01-01', 'vader@sithempire.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Yoda', 'Master', '896-02-11', 'yoda@jedi.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Obi-Wan', 'Kenobi', '1977-08-19', 'obiwan@jedi.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Palpatine', 'Sidious', '1937-12-20', 'palpatine@sithempire.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Chewbacca', 'Chewie', '180-05-19', 'chewie@wookiee.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Padmé', 'Amidala', '1967-05-12', 'padme@naboo.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Lando', 'Calrissian', '1944-09-06', 'lando@cloudcity.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Anakin', 'Skywalker', '1930-01-01', 'anakin@sithempire.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Mace', 'Windu', '1951-08-19', 'mace@jedi.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('Boba', 'Fett', '1948-03-28', 'boba@bountyhunter.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('R2-D2', 'Droid', '2023-03-03', 'r2d2@droid.com');
+INSERT INTO Customers (name, surname, birth_date, email) VALUES ('C-3PO', 'Droid', '2023-10-06', 'c3po@droid.com');

@@ -49,3 +49,11 @@ ng g c directive
 ```
 ng generate service customer
 ```
+
+## Spring Boot
+
+### Endpints
+
+#### GET /customers
+
+> http://localhost:8080/api/customers
