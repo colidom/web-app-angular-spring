@@ -17,4 +17,3 @@ export const CUSTOMERS: Customer[] = [
   { id: 14, name: 'R2-D2', surname: '', birthDate: 'Before 32 BBY', createdAt: '2023-03-03', email: 'r2d2@droid.com' },
   { id: 15, name: 'C-3PO', surname: '', birthDate: 'Before 32 BBY', createdAt: '2023-10-06', email: 'c3po@droid.com' },
 ];
-
