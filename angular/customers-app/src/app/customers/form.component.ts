@@ -30,7 +30,7 @@ export class FormComponent {
     })
   }
 
-  public create(): void {
+  create(): void {
     this.customerService.create(this.customer)
       .subscribe(customer => {
       this.router.navigate(['/customers'])
