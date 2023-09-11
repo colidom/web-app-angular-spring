@@ -3,5 +3,6 @@ export class Customer {
     name: string | undefined;
     surname: string | undefined;
     birthDate: string | undefined;
+    createdAt: string | undefined;
     email: string | undefined;
 }
