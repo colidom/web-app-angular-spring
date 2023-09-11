@@ -24,14 +24,15 @@ public class Customer implements Serializable {
 	private String name;
 	private String surname;
 	private String email;
-	
-	@Column(name="birth_date")
+	private String birthDate;
+
+	@Column(name="created_at")
 	@Temporal(TemporalType.DATE)
-	private Date birthDate;
+	private Date createdAt;
 
 	@PrePersist
 	public void prePersist() {
-		birthDate = new Date();
+		createdAt = new Date();
 	}
 	public Long getId() {
 		return id;
@@ -57,11 +58,17 @@ public class Customer implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getBirthDate() {
+	public String getBirthDate() {
 		return birthDate;
 	}
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 	
 	/**
