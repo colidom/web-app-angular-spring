@@ -19,7 +19,6 @@ public class CustomerServiceImpl implements ICustomerService {
 	@Override
 	@Transactional()
 	public List<Customer> findAll() {
-		// TODO Auto-generated method stub
 		return (List<Customer>) customerDao.findAll();
 	}
 
