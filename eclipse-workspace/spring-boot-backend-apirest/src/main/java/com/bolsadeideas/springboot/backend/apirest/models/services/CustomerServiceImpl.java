@@ -15,12 +15,30 @@ public class CustomerServiceImpl implements ICustomerService {
 
 	@Autowired
 	private ICustomerDao customerDao;
-	
+
 	@Override
 	@Transactional()
 	public List<Customer> findAll() {
 		// TODO Auto-generated method stub
 		return (List<Customer>) customerDao.findAll();
+	}
+
+	@Override
+	@Transactional()
+	public Customer findById(Long id) {
+		return customerDao.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional()
+	public Customer save(Customer customer) {
+		return customerDao.save(customer);
+	}
+
+	@Override
+	@Transactional()
+	public void delete(Long id) {
+		customerDao.deleteById(id);
 	}
 
 }
