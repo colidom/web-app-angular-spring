@@ -27,4 +27,8 @@ export class CustomerService {
   getCustomer(id: any): Observable<Customer> {
     return this.http.get<Customer>(`${this.urlEndpoint}/${id}`)
   }
+
+  update(customer: Customer) : Observable<Customer> {
+    return this.http.put<Customer>(`${this.urlEndpoint}/${customer.id}`, customer,{ headers: this.httpHeaders })
+  }
 }

@@ -38,4 +38,12 @@ export class FormComponent {
     }
     );
   }
+
+  update(): void {
+    this.customerService.update(this.customer)
+    .subscribe( customer => {
+      this.router.navigate(['/customers'])
+      swal.fire('Customer updated', `Customer ${customer.name} successfully udpated!`, 'success')
+    })
+  }
 }
