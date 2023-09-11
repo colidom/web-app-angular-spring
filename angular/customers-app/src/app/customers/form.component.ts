@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Customer } from './customer';
 import { CustomerService } from './customer.service';
 import { Router } from '@angular/router';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form',
@@ -15,9 +16,11 @@ export class FormComponent {
     private router: Router) {}
 
   public create(): void {
-    this.customerService.create(this.customer).subscribe(
-      response =>  this.router.navigate(['/customers'])
-    )
+    this.customerService.create(this.customer)
+      .subscribe(customer => {
+      this.router.navigate(['/customers'])
+      swal.fire('Customer Saved', `Customer ${customer.name} successfully created!`, 'success')
+    }
+    );
   }
-
 }
