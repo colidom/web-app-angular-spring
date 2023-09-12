@@ -77,15 +77,36 @@ public class CustomerRestController {
 	}
 	
 	@PutMapping("/customers/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Customer update(@RequestBody Customer customer, @PathVariable Long id) {
-		Customer currentCustomer = customerService.findById(id);
-		currentCustomer.setName(customer.getName());
-		currentCustomer.setSurname(customer.getSurname());
-		currentCustomer.setBirthDate(customer.getBirthDate());
-		currentCustomer.setEmail(customer.getEmail());
+	public ResponseEntity<?> update(@RequestBody Customer customer, @PathVariable Long id) {
 		
-		return customerService.save(currentCustomer);
+		Customer currentCustomer = customerService.findById(id);
+		Customer updatedCustomer = null;
+
+		Map<String, Object> response = new HashMap<>();
+		
+		if(currentCustomer == null) {
+			response.put("message", "Error when editing. Customer ID: ".concat(id.toString().concat(" does not exists in the database!")));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+
+		try {
+			currentCustomer.setName(customer.getName());
+			currentCustomer.setSurname(customer.getSurname());
+			currentCustomer.setBirthDate(customer.getBirthDate());
+			currentCustomer.setEmail(customer.getEmail());
+			currentCustomer.setCreatedAt(customer.getCreatedAt());
+
+			updatedCustomer = customerService.save(currentCustomer);
+		} catch(DataAccessException e) {
+			response.put("message", "Error when updating the value into database");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		response.put("message", "Customer successfully updated!");
+		response.put("customer", updatedCustomer);
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/customers/{id}")
