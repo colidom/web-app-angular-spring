@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Customer } from './customer';
 import { CUSTOMERS } from './customers.json';
-import { of, Observable } from 'rxjs';
+import { of, Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { UrlSegment } from '@angular/router';
+import { catchError } from 'rxjs/operators';
+import swal from 'sweetalert2';
+
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +16,7 @@ export class CustomerService {
 
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   getCustomers(): Observable<Customer[]>{ 
     // return of(CUSTOMERS); // Convert to stream
@@ -21,7 +24,14 @@ export class CustomerService {
   };
 
   getCustomer(id: any): Observable<Customer> {
-    return this.http.get<Customer>(`${this.urlEndpoint}/${id}`)
+    return this.http.get<Customer>(`${this.urlEndpoint}/${id}`).pipe(
+      catchError(e => {
+        this.router.navigate(['/customers']);
+        console.error(e.error.message);
+        swal.fire('Error while editing', e.error.message, 'error');
+        return throwError(() => e);
+      })
+    )
   }
 
   create(customer: Customer) : Observable<Customer> {
