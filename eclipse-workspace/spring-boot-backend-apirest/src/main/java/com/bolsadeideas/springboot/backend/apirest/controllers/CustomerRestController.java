@@ -1,9 +1,13 @@
 package com.bolsadeideas.springboot.backend.apirest.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,9 +36,25 @@ public class CustomerRestController {
 	}
 	
 	@GetMapping("/customers/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public Customer show(@PathVariable Long id) {
-		return customerService.findById(id);
+	public ResponseEntity<?> show(@PathVariable Long id) {
+		
+		Customer customer = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			customer = customerService.findById(id);
+		} catch(DataAccessException e) {
+			response.put("message", "Error when querying in the database");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		if(customer == null) {
+			response.put("message", "Customer ID: ".concat(id.toString().concat(" does not exists in the database!")));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<Customer>(customer, HttpStatus.OK); 
 	}
 	
 	@PostMapping("/customers")
