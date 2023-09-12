@@ -12,12 +12,12 @@
         Create customer
       </button>
     </div>
-    <div *ngIf="customers.length == 0" class="alert alert-info">
+    <div *ngIf="customers && customers.length === 0" class="alert alert-info">
       No records in the database!
     </div>
     <table
       class="table table-bordered table-striped"
-      *ngIf="customers.length > 0"
+      *ngIf="customers && customers.length > 0"
     >
       <thead>
         <tr>
