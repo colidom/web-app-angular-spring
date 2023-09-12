@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Customer } from './customer';
 import { CustomerService } from './customer.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form',
@@ -34,7 +34,7 @@ export class FormComponent {
     this.customerService.create(this.customer)
       .subscribe(json => {
       this.router.navigate(['/customers'])
-      swal.fire('Customer Saved', `${json.message}: ${json.customer.name}`, 'success')
+      Swal.fire('Customer Saved', `${json.message}: ${json.customer.name}`, 'success')
     }
     );
   }
@@ -43,7 +43,7 @@ export class FormComponent {
     this.customerService.update(this.customer)
     .subscribe( json => {
       this.router.navigate(['/customers'])
-      swal.fire('Customer updated', `${json.message}: ${json.customer.name}`, 'success')
+      Swal.fire('Customer updated', `${json.message}: ${json.customer.name}`, 'success')
     })
   }
 }

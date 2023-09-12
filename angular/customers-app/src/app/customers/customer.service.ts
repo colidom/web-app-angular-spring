@@ -3,7 +3,7 @@ import { Customer } from './customer';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 import { Router } from '@angular/router';
 
@@ -26,7 +26,7 @@ export class CustomerService {
       catchError(e => {
         this.router.navigate(['/customers']);
         console.error(e.error.message);
-        swal.fire('Error while editing', e.error.message, 'error');
+        Swal.fire('Error while editing', e.error.message, 'error');
         return throwError(() => e);
       })
     )
@@ -36,7 +36,7 @@ export class CustomerService {
     return this.http.post<Customer>(this.urlEndpoint, customer, {headers: this.httpHeaders}).pipe(
       catchError((e) => {
         console.error(e.error.message);
-        swal.fire(e.error.message, e.error.error , 'error');
+        Swal.fire(e.error.message, e.error.error , 'error');
         return throwError(() => e);
       })
     );
@@ -46,7 +46,7 @@ export class CustomerService {
     return this.http.put<Customer>(`${this.urlEndpoint}/${customer.id}`, customer,{ headers: this.httpHeaders }).pipe(
       catchError((e) => {
         console.error(e.error.message);
-        swal.fire(e.error.message, e.error.error , 'error');
+        Swal.fire(e.error.message, e.error.error , 'error');
         return throwError(() => e);
       })
     )
@@ -56,7 +56,7 @@ export class CustomerService {
     return this.http.delete<Customer>(`${this.urlEndpoint}/${id}`, {headers: this.httpHeaders}).pipe(
       catchError((e) => {
         console.error(e.error.message);
-        swal.fire(e.error.message, e.error.error , 'error');
+        Swal.fire(e.error.message, e.error.error , 'error');
         return throwError(() => e);
       })
     )

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer } from './customer';
 import { CustomerService } from './customer.service';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-customers',
   templateUrl: './customers.component.html'
@@ -21,7 +22,7 @@ export class CustomersComponent  implements OnInit {
 
   delete(customer: Customer): void {
 
-    swal.fire({
+    Swal.fire({
       title: 'Are you sure?',
       text: `${customer.name} ${customer.surname} will be deleted. You won't be able to revert this!`,
       icon: 'warning',
@@ -35,7 +36,7 @@ export class CustomersComponent  implements OnInit {
         this.customerService.delete(customer.id).subscribe(
           response => {
             this.customers = this.customers?.filter(cli => cli !== customer)
-            swal.fire(
+            Swal.fire(
               'Deleted!',
               `${customer.name} ${customer.surname} has been deleted.`,
               'success'
