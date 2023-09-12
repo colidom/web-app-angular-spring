@@ -32,18 +32,18 @@ export class FormComponent {
 
   create(): void {
     this.customerService.create(this.customer)
-      .subscribe(customer => {
+      .subscribe(json => {
       this.router.navigate(['/customers'])
-      swal.fire('Customer Saved', `Customer ${customer.name} successfully created!`, 'success')
+      swal.fire('Customer Saved', `${json.message}: ${json.customer.name}`, 'success')
     }
     );
   }
 
   update(): void {
     this.customerService.update(this.customer)
-    .subscribe( customer => {
+    .subscribe( json => {
       this.router.navigate(['/customers'])
-      swal.fire('Customer updated', `Customer ${customer.name} successfully udpated!`, 'success')
+      swal.fire('Customer updated', `${json.message}: ${json.customer.name}`, 'success')
     })
   }
 }
