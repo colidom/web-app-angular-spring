@@ -58,9 +58,22 @@ public class CustomerRestController {
 	}
 	
 	@PostMapping("/customers")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Customer create(@RequestBody Customer customer) {
-		return customerService.save(customer);
+	public ResponseEntity<?>  create(@RequestBody Customer customer) {
+		
+		Customer newCustomer = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			newCustomer = customerService.save(customer);
+		} catch(DataAccessException e) {
+			response.put("message", "Error when inserting value into database");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("message", "Customer successfully created!");
+		response.put("customer", newCustomer);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/customers/{id}")
