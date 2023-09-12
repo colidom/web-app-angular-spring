@@ -11,8 +11,7 @@ import Swal from 'sweetalert2';
 export class FormComponent {
   public customer: Customer = new Customer();
   public title:string = "Customer creation";
-
-  private errors: string[];
+  public errors: string[];
   
   constructor(private customerService: CustomerService,
     private router: Router,
