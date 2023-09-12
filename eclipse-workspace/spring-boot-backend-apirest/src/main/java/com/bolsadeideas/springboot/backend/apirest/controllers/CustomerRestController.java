@@ -58,7 +58,7 @@ public class CustomerRestController {
 	}
 	
 	@PostMapping("/customers")
-	public ResponseEntity<?>  create(@RequestBody Customer customer) {
+	public ResponseEntity<?> create(@RequestBody Customer customer) {
 		
 		Customer newCustomer = null;
 		Map<String, Object> response = new HashMap<>();
