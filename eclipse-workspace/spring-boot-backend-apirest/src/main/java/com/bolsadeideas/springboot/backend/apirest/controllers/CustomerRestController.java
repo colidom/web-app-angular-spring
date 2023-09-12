@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Customer;
@@ -110,8 +109,26 @@ public class CustomerRestController {
 	}
 	
 	@DeleteMapping("/customers/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Long id) {
-		customerService.delete(id);
+	public ResponseEntity<?> delete(@PathVariable Long id) {
+		
+		Customer deleteCustomer = null;
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+			deleteCustomer = customerService.findById(id);
+			customerService.delete(id);
+		} catch (DataAccessException e) {
+			response.put("message", "Error when deleting the client from the database");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		if(deleteCustomer == null) {
+			response.put("message", "Customer ID: ".concat(id.toString().concat(" does not exists in the database!")));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		response.put("message", "Customer ID: ".concat(id.toString().concat(" successfully deleted!")));
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 }
