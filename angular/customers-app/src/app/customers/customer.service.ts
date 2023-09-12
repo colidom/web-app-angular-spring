@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Customer } from './customer';
-import { CUSTOMERS } from './customers.json';
-import { of, Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import swal from 'sweetalert2';
@@ -19,7 +18,6 @@ export class CustomerService {
   constructor(private http: HttpClient, private router: Router) { }
 
   getCustomers(): Observable<Customer[]>{ 
-    // return of(CUSTOMERS); // Convert to stream
     return this.http.get<Customer[]>(this.urlEndpoint)
   };
 
@@ -35,14 +33,32 @@ export class CustomerService {
   }
 
   create(customer: Customer) : Observable<Customer> {
-    return this.http.post<Customer>(this.urlEndpoint, customer, {headers: this.httpHeaders})
+    return this.http.post<Customer>(this.urlEndpoint, customer, {headers: this.httpHeaders}).pipe(
+      catchError((e) => {
+        console.error(e.error.message);
+        swal.fire(e.error.message, e.error.error , 'error');
+        return throwError(() => e);
+      })
+    );
   }
 
   update(customer: Customer) : Observable<Customer> {
-    return this.http.put<Customer>(`${this.urlEndpoint}/${customer.id}`, customer,{ headers: this.httpHeaders })
+    return this.http.put<Customer>(`${this.urlEndpoint}/${customer.id}`, customer,{ headers: this.httpHeaders }).pipe(
+      catchError((e) => {
+        console.error(e.error.message);
+        swal.fire(e.error.message, e.error.error , 'error');
+        return throwError(() => e);
+      })
+    )
   }
 
   delete(id: number | any) : Observable<Customer> {
-    return this.http.delete<Customer>(`${this.urlEndpoint}/${id}`, {headers: this.httpHeaders})
+    return this.http.delete<Customer>(`${this.urlEndpoint}/${id}`, {headers: this.httpHeaders}).pipe(
+      catchError((e) => {
+        console.error(e.error.message);
+        swal.fire(e.error.message, e.error.error , 'error');
+        return throwError(() => e);
+      })
+    )
   }
 }
