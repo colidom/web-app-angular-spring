@@ -3,11 +3,13 @@ package com.bolsadeideas.springboot.backend.apirest.controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Customer;
 import com.bolsadeideas.springboot.backend.apirest.models.services.ICustomerService;
+
+import jakarta.validation.Valid;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
@@ -57,10 +61,20 @@ public class CustomerRestController {
 	}
 	
 	@PostMapping("/customers")
-	public ResponseEntity<?> create(@RequestBody Customer customer) {
+	public ResponseEntity<?> create(@Valid @RequestBody Customer customer, BindingResult result) {
 		
 		Customer newCustomer = null;
 		Map<String, Object> response = new HashMap<>();
+		
+		if(result.hasErrors()) {
+			List<String> errors= result.getFieldErrors()
+					.stream()
+					.map(err -> "Field '" + err.getField() + "' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+			
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
 		
 		try {
 			newCustomer = customerService.save(customer);
@@ -76,12 +90,22 @@ public class CustomerRestController {
 	}
 	
 	@PutMapping("/customers/{id}")
-	public ResponseEntity<?> update(@RequestBody Customer customer, @PathVariable Long id) {
+	public ResponseEntity<?> update(@Valid @RequestBody Customer customer, BindingResult result, @PathVariable Long id) {
 		
 		Customer currentCustomer = customerService.findById(id);
 		Customer updatedCustomer = null;
 
 		Map<String, Object> response = new HashMap<>();
+		
+		if(result.hasErrors()) {
+			List<String> errors= result.getFieldErrors()
+					.stream()
+					.map(err -> "Field '" + err.getField() + "' " + err.getDefaultMessage())
+					.collect(Collectors.toList());
+			
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
 		
 		if(currentCustomer == null) {
 			response.put("message", "Error when editing. Customer ID: ".concat(id.toString().concat(" does not exists in the database!")));
