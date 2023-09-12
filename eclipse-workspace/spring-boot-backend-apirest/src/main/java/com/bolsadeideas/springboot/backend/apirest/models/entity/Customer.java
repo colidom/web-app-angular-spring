@@ -27,6 +27,7 @@ public class Customer implements Serializable {
 	
 	@Size(min=4, max=15)
 	@Column(nullable=false)
+	@NotEmpty
 	private String name;
 	
 	@NotEmpty
