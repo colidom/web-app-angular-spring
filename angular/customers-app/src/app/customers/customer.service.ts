@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Customer } from './customer';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 import { Router } from '@angular/router';
@@ -17,9 +17,20 @@ export class CustomerService {
   
   constructor(private http: HttpClient, private router: Router) { }
 
-  getCustomers(): Observable<Customer[]>{ 
-    return this.http.get<Customer[]>(this.urlEndpoint)
-  };
+  getCustomers(): Observable<Customer[]> { 
+    return this.http.get(this.urlEndpoint).pipe(
+      map(response => {
+
+        let customers = response as Customer[];
+
+        return customers.map(customer => {
+          customer.name = customer.name.toUpperCase();
+          return customer;
+        });
+      }
+      )
+    );
+  }
 
   getCustomer(id: any): Observable<Customer> {
     return this.http.get<Customer>(`${this.urlEndpoint}/${id}`).pipe(
@@ -54,7 +65,7 @@ export class CustomerService {
         if(e.status ==400) {
           return throwError(() => e);
         }
-        
+
         console.error(e.error.message);
         Swal.fire(e.error.message, e.error.error , 'error');
         return throwError(() => e);
