@@ -3,6 +3,7 @@ import { Customer } from './customer';
 import { CustomerService } from './customer.service';
 import Swal from 'sweetalert2';
 import { tap } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-customers',
@@ -12,18 +13,27 @@ export class CustomersComponent  implements OnInit {
 
   customers: Customer[] | undefined;
   
-  constructor(private customerService: CustomerService) { }
+  constructor(
+    private customerService: CustomerService, 
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    let page = 0;
-    this.customerService.getCustomers(page)
-    .pipe(
-      tap(response => {
-        (response.content as Customer[]).forEach(customer => {
-          console.log(customer.name);
-        });
-      })
-    ).subscribe(response => this.customers = response.content as Customer[]);
+    this.activatedRoute.paramMap.subscribe(params => {
+      let page:number = +params.get('page');
+
+      if(!page) {
+        page = 0;
+      }
+
+      this.customerService.getCustomers(page)
+      .pipe(
+        tap(response => {
+          (response.content as Customer[]).forEach(customer => {
+            console.log(customer.name);
+          });
+        })
+      ).subscribe(response => this.customers = response.content as Customer[]);
+      });
   }
 
   delete(customer: Customer): void {
