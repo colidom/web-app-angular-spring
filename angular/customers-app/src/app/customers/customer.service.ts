@@ -20,9 +20,7 @@ export class CustomerService {
   getCustomers(): Observable<Customer[]> { 
     return this.http.get(this.urlEndpoint).pipe(
       map(response => {
-
         let customers = response as Customer[];
-
         return customers.map(customer => {
           customer.name = customer.name.toUpperCase();
           return customer;
