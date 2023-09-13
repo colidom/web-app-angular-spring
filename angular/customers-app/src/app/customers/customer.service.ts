@@ -19,29 +19,28 @@ export class CustomerService {
   
   constructor(private http: HttpClient, private router: Router) { }
 
-  getCustomers(): Observable<Customer[]> { 
-    return this.http.get(this.urlEndpoint).pipe(
-      tap(response => {
-        let customers = response as Customer[];
+  getCustomers(page: number): Observable<any> { 
+    return this.http.get(this.urlEndpoint + '/page/' + page).pipe(
+      tap((response: any) => {
         console.log('CustomerService: tap 1(minúscula)');
-        customers.forEach(customer => {
+        (response.content as Customer[]).forEach(customer => {
           console.log(customer.name)
         })
       }),
-      map(response => {
-        let customers = response as Customer[];
-        return customers.map(customer => {
+      map((response: any) => {
+        (response.content as Customer[]).map(customer => {
           customer.name = customer.name.toUpperCase();
           let datePipe = new DatePipe('es');
           customer.createdAt = datePipe.transform(customer.createdAt, 'EEEE dd, MMMM yyyy');
           // customer.createdAt = formatDate(customer.createdAt, 'dd-MM-yyyy', 'en-US') // Otra forma de hacerlo
           return customer;
         });
+        return response;
       }
       ),
       tap(response => {
         console.log('CustomerService: tap 2(mayúscula)');
-        response.forEach(customer => {
+       (response.content as Customer[]).forEach(customer => {
           console.log(customer.name)
         });
       })

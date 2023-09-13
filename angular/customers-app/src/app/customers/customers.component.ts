@@ -15,9 +15,15 @@ export class CustomersComponent  implements OnInit {
   constructor(private customerService: CustomerService) { }
 
   ngOnInit() {
-    this.customerService.getCustomers().pipe(
-      tap(customers => this.customers = customers)
-    ).subscribe();
+    let page = 0;
+    this.customerService.getCustomers(page)
+    .pipe(
+      tap(response => {
+        (response.content as Customer[]).forEach(customer => {
+          console.log(customer.name);
+        });
+      })
+    ).subscribe(response => this.customers = response.content as Customer[]);
   }
 
   delete(customer: Customer): void {
