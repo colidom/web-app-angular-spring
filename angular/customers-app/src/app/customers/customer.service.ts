@@ -15,11 +15,11 @@ import { Router } from '@angular/router';
 export class CustomerService {
   private urlEndpoint: string = 'http://localhost:8080/api/customers';
 
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
-  
+  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+
   constructor(private http: HttpClient, private router: Router) { }
 
-  getCustomers(page: number): Observable<any> { 
+  getCustomers(page: number): Observable<any> {
     return this.http.get(this.urlEndpoint + '/page/' + page).pipe(
       tap((response: any) => {
         console.log('CustomerService: tap 1(minúscula)');
@@ -40,7 +40,7 @@ export class CustomerService {
       ),
       tap(response => {
         console.log('CustomerService: tap 2(mayúscula)');
-       (response.content as Customer[]).forEach(customer => {
+        (response.content as Customer[]).forEach(customer => {
           console.log(customer.name)
         });
       })
@@ -58,41 +58,41 @@ export class CustomerService {
     )
   }
 
-  create(customer: Customer) : Observable<any> {
-    return this.http.post<Customer>(this.urlEndpoint, customer, {headers: this.httpHeaders}).pipe(
+  create(customer: Customer): Observable<any> {
+    return this.http.post<Customer>(this.urlEndpoint, customer, { headers: this.httpHeaders }).pipe(
       catchError((e) => {
 
-        if(e.status ==400) {
+        if (e.status == 400) {
           return throwError(() => e);
         }
 
         console.error(e.error.message);
-        Swal.fire(e.error.message, e.error.error , 'error');
+        Swal.fire(e.error.message, e.error.error, 'error');
         return throwError(() => e);
       })
     );
   }
 
-  update(customer: Customer) : Observable<any> {
-    return this.http.put<Customer>(`${this.urlEndpoint}/${customer.id}`, customer,{ headers: this.httpHeaders }).pipe(
+  update(customer: Customer): Observable<any> {
+    return this.http.put<Customer>(`${this.urlEndpoint}/${customer.id}`, customer, { headers: this.httpHeaders }).pipe(
       catchError((e) => {
 
-        if(e.status ==400) {
+        if (e.status == 400) {
           return throwError(() => e);
         }
 
         console.error(e.error.message);
-        Swal.fire(e.error.message, e.error.error , 'error');
+        Swal.fire(e.error.message, e.error.error, 'error');
         return throwError(() => e);
       })
     )
   }
 
-  delete(id: number | any) : Observable<Customer> {
-    return this.http.delete<Customer>(`${this.urlEndpoint}/${id}`, {headers: this.httpHeaders}).pipe(
+  delete(id: number | any): Observable<Customer> {
+    return this.http.delete<Customer>(`${this.urlEndpoint}/${id}`, { headers: this.httpHeaders }).pipe(
       catchError((e) => {
         console.error(e.error.message);
-        Swal.fire(e.error.message, e.error.error , 'error');
+        Swal.fire(e.error.message, e.error.error, 'error');
         return throwError(() => e);
       })
     )

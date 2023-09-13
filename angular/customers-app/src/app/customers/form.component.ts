@@ -10,22 +10,22 @@ import Swal from 'sweetalert2';
 })
 export class FormComponent {
   public customer: Customer = new Customer();
-  public title:string = "Customer creation";
+  public title: string = "Customer creation";
   public errors: string[];
-  
+
   constructor(private customerService: CustomerService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) {}
+    private activatedRoute: ActivatedRoute) { }
 
-    ngOnInit() {
-      this.loadCustomer();
-    }
+  ngOnInit() {
+    this.loadCustomer();
+  }
 
   loadCustomer(): void {
     this.activatedRoute.params.subscribe(params => {
       let id = params['id']
-      if(id) {
-        this.customerService.getCustomer(id).subscribe( 
+      if (id) {
+        this.customerService.getCustomer(id).subscribe(
           (customer) => this.customer = customer)
       }
     })
@@ -34,28 +34,28 @@ export class FormComponent {
   create(): void {
     this.customerService.create(this.customer)
       .subscribe(json => {
-      this.router.navigate(['/customers'])
-      Swal.fire('Customer Saved', `${json.message}: ${json.customer.name}`, 'success')
-    },
-    err => {
-      this.errors = err.error.errors as string[];
-      console.error("Backend error code: " + err.status);
-      console.error(err.error.errors);
-    }
-    );
+        this.router.navigate(['/customers'])
+        Swal.fire('Customer Saved', `${json.message}: ${json.customer.name}`, 'success')
+      },
+        err => {
+          this.errors = err.error.errors as string[];
+          console.error("Backend error code: " + err.status);
+          console.error(err.error.errors);
+        }
+      );
   }
 
   update(): void {
     this.customerService.update(this.customer)
-    .subscribe( json => {
-      this.router.navigate(['/customers'])
-      Swal.fire('Customer updated', `${json.message}: ${json.customer.name}`, 'success')
-    },
-    err => {
-      this.errors = err.error.errors as string[];
-      console.error("Backend error code: " + err.status);
-      console.error(err.error.errors);
-    }
-    );
+      .subscribe(json => {
+        this.router.navigate(['/customers'])
+        Swal.fire('Customer updated', `${json.message}: ${json.customer.name}`, 'success')
+      },
+        err => {
+          this.errors = err.error.errors as string[];
+          console.error("Backend error code: " + err.status);
+          console.error(err.error.errors);
+        }
+      );
   }
 }
