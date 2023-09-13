@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -47,6 +49,8 @@ public class CustomerRestController {
 	
 	@Autowired
 	private ICustomerService customerService;
+	
+	private final Logger log = LoggerFactory.getLogger(CustomerRestController.class);
 	
 	@GetMapping("/customers")
 	public List<Customer> index() {
@@ -193,6 +197,7 @@ public class CustomerRestController {
 		if(!file.isEmpty()) {
 			String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename().replace(" ", "");
 			Path fileRoute = Paths.get("uploads").resolve(fileName).toAbsolutePath();
+			log.info(fileRoute.toString());
 			
 			try {
 				Files.copy(file.getInputStream(), fileRoute);
@@ -227,6 +232,9 @@ public class CustomerRestController {
 	@GetMapping("/uploads/img/{pictureName:.+}")
 	public ResponseEntity<Resource> showPicture(@PathVariable String pictureName) {
 		Path fileRoute = Paths.get("uploads").resolve(pictureName).toAbsolutePath();
+		
+		log.info(fileRoute.toString());
+		
 		Resource resource = null;
 		
 		try {
