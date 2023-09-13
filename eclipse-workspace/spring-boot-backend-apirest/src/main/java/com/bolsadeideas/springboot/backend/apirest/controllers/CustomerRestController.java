@@ -1,5 +1,6 @@
 package com.bolsadeideas.springboot.backend.apirest.controllers;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -156,6 +157,18 @@ public class CustomerRestController {
 
 		try {
 			deleteCustomer = customerService.findById(id);
+			
+			String previousPictureName = deleteCustomer.getPicture();
+			
+			if(previousPictureName != null && previousPictureName.length() > 0) {
+				Path previousPicturePath = Paths.get("uploads").resolve(previousPictureName).toAbsolutePath();
+				File previousPictureFile = previousPicturePath.toFile();
+
+				if(previousPictureFile.exists() && previousPictureFile.canRead()) {
+					previousPictureFile.delete();
+				}
+			}
+			
 			customerService.delete(id);
 		} catch (DataAccessException e) {
 			response.put("message", "Error when deleting the client from the database");
@@ -163,11 +176,6 @@ public class CustomerRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		if(deleteCustomer == null) {
-			response.put("message", "Customer ID: ".concat(id.toString().concat(" does not exists in the database!")));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-		}
-		
 		response.put("message", "Customer ID: ".concat(id.toString().concat(" successfully deleted!")));
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
@@ -188,6 +196,17 @@ public class CustomerRestController {
 				response.put("customer", "Error uploading image to server " + fileName);
 				response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			String previousPictureName = customer.getPicture();
+			
+			if(previousPictureName !=null && previousPictureName.length() > 0) {
+				Path previousPicturePath = Paths.get("uploads").resolve(previousPictureName).toAbsolutePath();
+				File previousPictureFile = previousPicturePath.toFile();
+
+				if(previousPictureFile.exists() && previousPictureFile.canRead()) {
+					previousPictureFile.delete();
+				}
 			}
 			
 			customer.setPicture(fileName);
