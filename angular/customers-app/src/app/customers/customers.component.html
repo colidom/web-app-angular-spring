@@ -62,6 +62,6 @@
         </tr>
       </tbody>
     </table>
-    <paginator-nav></paginator-nav>
+    <paginator-nav *ngIf="paginator" [paginator]="paginator"></paginator-nav>
   </div>
 </div>

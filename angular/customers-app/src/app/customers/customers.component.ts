@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class CustomersComponent implements OnInit {
 
   customers: Customer[] | undefined;
+  paginator: any;
 
   constructor(
     private customerService: CustomerService,
@@ -32,7 +33,10 @@ export class CustomersComponent implements OnInit {
               console.log(customer.name);
             });
           })
-        ).subscribe(response => this.customers = response.content as Customer[]);
+        ).subscribe(response => {
+          this.customers = response.content as Customer[],
+          this.paginator = response;
+        });
     });
   }
 
