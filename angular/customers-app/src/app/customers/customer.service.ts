@@ -4,7 +4,7 @@ import { formatDate, DatePipe } from '@angular/common';
 import { Customer } from './customer';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 import { Router } from '@angular/router';
@@ -21,6 +21,13 @@ export class CustomerService {
 
   getCustomers(): Observable<Customer[]> { 
     return this.http.get(this.urlEndpoint).pipe(
+      tap(response => {
+        let customers = response as Customer[];
+        console.log('CustomerService: tap 1(minúscula)');
+        customers.forEach(customer => {
+          console.log(customer.name)
+        })
+      }),
       map(response => {
         let customers = response as Customer[];
         return customers.map(customer => {
@@ -31,7 +38,13 @@ export class CustomerService {
           return customer;
         });
       }
-      )
+      ),
+      tap(response => {
+        console.log('CustomerService: tap 2(mayúscula)');
+        response.forEach(customer => {
+          console.log(customer.name)
+        });
+      })
     );
   }
 
