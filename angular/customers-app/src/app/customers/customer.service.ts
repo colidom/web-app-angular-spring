@@ -97,4 +97,19 @@ export class CustomerService {
       })
     )
   }
+
+  uploadPicture(file: File, id: any): Observable<Customer> {
+    let formData = new FormData;
+    formData.append("picture", file);
+    formData.append("id", id);
+
+    return this.http.post(`${this.urlEndpoint}/upload`, formData).pipe(
+      map((response: any) => response.customer as Customer),
+      catchError(e => {
+        console.error(e.error.message);
+        Swal.fire(e.error.message, e.error.error, 'error');
+        return throwError(() => e);
+      })
+    );
+  }
 }

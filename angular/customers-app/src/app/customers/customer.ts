@@ -5,4 +5,5 @@ export class Customer {
     birthDate: string | undefined;
     createdAt: string | undefined;
     email: string | undefined;
+    picture: string | undefined;
 }

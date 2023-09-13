@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Customer } from '../customer';
 import { CustomerService } from '../customer.service';
 import { ActivatedRoute } from '@angular/router';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'customer-detail',
@@ -12,6 +13,7 @@ export class DetailComponent implements OnInit {
 
   customer: Customer;
   title: string = "Customer detail";
+  private selectedPicture: File;
 
   constructor(
     private customerService: CustomerService,
@@ -28,5 +30,18 @@ export class DetailComponent implements OnInit {
         })
       }
     })
+  }
+
+  selectPicture(event: any) {
+    this.selectedPicture = event.target.files[0];
+    console.log(this.selectedPicture);
+  }
+
+  uploadPicture() {
+    this.customerService.uploadPicture(this.selectedPicture, this.customer.id)
+      .subscribe(customer => {
+        this.customer = customer;
+        Swal.fire("Picture correctly uploaded!", `Picture uploaded: ${customer.picture}`, "success");
+      })
   }
 }
