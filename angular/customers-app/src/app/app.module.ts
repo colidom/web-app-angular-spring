@@ -14,6 +14,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { DetailComponent } from './customers/detail/detail.component';
 
 registerLocaleData(localeEs, 'es');
 
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'customers', component: CustomersComponent },
   { path: 'customers/page/:page', component: CustomersComponent },
   { path: 'customers/form', component: FormComponent },
-  { path: 'customers/form/:id', component: FormComponent }
+  { path: 'customers/form/:id', component: FormComponent },
+  { path: 'customers/detail/:id', component: DetailComponent }
 ];
 
 @NgModule({
@@ -34,7 +36,8 @@ const routes: Routes = [
     DirectiveComponent,
     CustomersComponent,
     FormComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    DetailComponent
   ],
   imports: [
     BrowserModule,
