@@ -9,31 +9,31 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-customers',
   templateUrl: './customers.component.html'
 })
-export class CustomersComponent  implements OnInit {
+export class CustomersComponent implements OnInit {
 
   customers: Customer[] | undefined;
-  
+
   constructor(
-    private customerService: CustomerService, 
+    private customerService: CustomerService,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
-      let page:number = +params.get('page');
+      let page: number = +params.get('page');
 
-      if(!page) {
+      if (!page) {
         page = 0;
       }
 
       this.customerService.getCustomers(page)
-      .pipe(
-        tap(response => {
-          (response.content as Customer[]).forEach(customer => {
-            console.log(customer.name);
-          });
-        })
-      ).subscribe(response => this.customers = response.content as Customer[]);
-      });
+        .pipe(
+          tap(response => {
+            (response.content as Customer[]).forEach(customer => {
+              console.log(customer.name);
+            });
+          })
+        ).subscribe(response => this.customers = response.content as Customer[]);
+    });
   }
 
   delete(customer: Customer): void {
