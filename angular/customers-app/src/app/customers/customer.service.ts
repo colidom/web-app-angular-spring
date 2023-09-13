@@ -100,7 +100,7 @@ export class CustomerService {
 
   uploadPicture(file: File, id: any): Observable<Customer> {
     let formData = new FormData;
-    formData.append("picture", file);
+    formData.append("file", file);
     formData.append("id", id);
 
     return this.http.post(`${this.urlEndpoint}/upload`, formData).pipe(
