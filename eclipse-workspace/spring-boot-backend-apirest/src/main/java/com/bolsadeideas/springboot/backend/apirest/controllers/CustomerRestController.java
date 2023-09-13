@@ -1,5 +1,9 @@
 package com.bolsadeideas.springboot.backend.apirest.controllers;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Customer;
 import com.bolsadeideas.springboot.backend.apirest.models.services.ICustomerService;
@@ -163,5 +169,32 @@ public class CustomerRestController {
 		
 		response.put("message", "Customer ID: ".concat(id.toString().concat(" successfully deleted!")));
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
+	@PostMapping("/customers/upload")
+	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, @RequestParam("id") Long id) {
+		Map<String, Object> response = new HashMap<>();
+		
+		Customer customer = customerService.findById(id);
+		
+		if(!file.isEmpty()) {
+			String fileName = file.getOriginalFilename();
+			Path fileRoute = Paths.get("uploads").resolve(fileName).toAbsolutePath();
+			
+			try {
+				Files.copy(file.getInputStream(), fileRoute);
+			} catch (IOException e) {
+				response.put("customer", "Error uploading image to server " + fileName);
+				response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			customer.setPicture(fileName);
+			
+			response.put("customer", customer);
+			response.put("message", "You have successfully uploaded the image: " + fileName);
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 }

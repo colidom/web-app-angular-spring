@@ -43,7 +43,15 @@ public class Customer implements Serializable {
 	@Column(name="created_at")
 	@Temporal(TemporalType.DATE)
 	private Date createdAt;
+	
+	private String picture;
 
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
 	public Long getId() {
 		return id;
 	}
