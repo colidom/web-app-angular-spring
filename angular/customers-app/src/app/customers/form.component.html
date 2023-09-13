@@ -11,18 +11,9 @@
       <div class="form-group row">
         <label for="name" class="col-form-label col-sm-2">Name</label>
         <div class="col-sm-6">
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="customer.name"
-            name="name"
-            minlength="4"
-            #name="ngModel"
-          />
-          <div
-            class="alert alert-danger"
-            *ngIf="name.invalid && (name.dirty || name.touched)"
-          >
+          <input type="text" class="form-control" [(ngModel)]="customer.name" name="name" minlength="4"
+            #name="ngModel" />
+          <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
             <div *ngIf="name.errors?.['required']">Required</div>
             <div *ngIf="name.errors?.['minlength']">
               Name must contain more than 5 characters
@@ -33,17 +24,8 @@
       <div class="form-group row">
         <label for="surname" class="col-form-label col-sm-2">Surname</label>
         <div class="col-sm-6">
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="customer.surname"
-            name="surname"
-            #surname="ngModel"
-          />
-          <div
-            class="alert alert-danger"
-            *ngIf="surname.invalid && (surname.dirty || surname.touched)"
-          >
+          <input type="text" class="form-control" [(ngModel)]="customer.surname" name="surname" #surname="ngModel" />
+          <div class="alert alert-danger" *ngIf="surname.invalid && (surname.dirty || surname.touched)">
             <div *ngIf="surname.errors?.['required']">Required</div>
             <div *ngIf="surname.errors?.['minlength']">
               Surname must contain more than 5 characters
@@ -54,18 +36,8 @@
       <div class="form-group row">
         <label for="email" class="col-form-label col-sm-2">Email</label>
         <div class="col-sm-6">
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="customer.email"
-            name="email"
-            email
-            #email="ngModel"
-          />
-          <div
-            class="alert alert-danger"
-            *ngIf="email.invalid && (email.dirty || email.touched)"
-          >
+          <input type="text" class="form-control" [(ngModel)]="customer.email" name="email" email #email="ngModel" />
+          <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
             <div *ngIf="surname.errors?.['required']">Required</div>
             <div *ngIf="email.errors?.['email']">
               Email must have a valid format
@@ -76,32 +48,17 @@
       <div class="form-group row">
         <label for="birthDate" class="col-form-label col-sm-2">Birthday</label>
         <div class="col-sm-6">
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="customer.birthDate"
-            name="birthDate"
-          />
+          <input type="text" class="form-control" [(ngModel)]="customer.birthDate" name="birthDate" />
         </div>
 
         <div class="for-group row">
           <div class="col-sm-6">
-            <button
-              class="btn btn-primary"
-              role="button"
-              (click)="create()"
-              *ngIf="!customer.id; else elseBlock"
-              [disabled]="!customerForm.form.valid"
-            >
+            <button class="btn btn-primary" role="button" (click)="create()" *ngIf="!customer.id; else elseBlock"
+              [disabled]="!customerForm.form.valid">
               Create
             </button>
             <ng-template #elseBlock>
-              <button
-                class="btn btn-primary"
-                role="button"
-                (click)="update()"
-                [disabled]="!customerForm.form.valid"
-              >
+              <button class="btn btn-primary" role="button" (click)="update()" [disabled]="!customerForm.form.valid">
                 Update
               </button>
             </ng-template>
