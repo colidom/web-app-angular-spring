@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule } from '@angular/common';   
+import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -18,12 +18,12 @@ import localeEs from '@angular/common/locales/es';
 registerLocaleData(localeEs, 'es');
 
 const routes: Routes = [
-  {path: '', redirectTo: '/customers', pathMatch: 'full'},
-  {path: 'directives', component: DirectiveComponent},
-  {path: 'customers', component: CustomersComponent},
-  {path: 'customers/page/:page', component: CustomersComponent},
-  {path: 'customers/form', component: FormComponent},
-  {path: 'customers/form/:id', component: FormComponent}
+  { path: '', redirectTo: '/customers', pathMatch: 'full' },
+  { path: 'directives', component: DirectiveComponent },
+  { path: 'customers', component: CustomersComponent },
+  { path: 'customers/page/:page', component: CustomersComponent },
+  { path: 'customers/form', component: FormComponent },
+  { path: 'customers/form/:id', component: FormComponent }
 ];
 
 @NgModule({
