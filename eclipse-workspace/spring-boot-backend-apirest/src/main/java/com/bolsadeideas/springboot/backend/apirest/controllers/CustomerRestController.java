@@ -211,6 +211,8 @@ public class CustomerRestController {
 			
 			customer.setPicture(fileName);
 			
+			customerService.save(customer);
+
 			response.put("customer", customer);
 			response.put("message", "You have successfully uploaded the image: " + fileName);
 		}
