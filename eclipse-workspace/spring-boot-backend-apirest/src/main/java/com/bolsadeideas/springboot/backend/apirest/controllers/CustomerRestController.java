@@ -39,6 +39,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Customer;
 import com.bolsadeideas.springboot.backend.apirest.models.services.ICustomerService;
+import com.bolsadeideas.springboot.backend.apirest.models.services.UploadFileServiceImpl;
 
 import jakarta.validation.Valid;
 
@@ -49,6 +50,9 @@ public class CustomerRestController {
 	
 	@Autowired
 	private ICustomerService customerService;
+	
+	@Autowired
+	private UploadFileServiceImpl uploadService;
 	
 	private final Logger log = LoggerFactory.getLogger(CustomerRestController.class);
 	
@@ -168,14 +172,7 @@ public class CustomerRestController {
 			
 			String previousPictureName = deleteCustomer.getPicture();
 			
-			if(previousPictureName != null && previousPictureName.length() > 0) {
-				Path previousPicturePath = Paths.get("uploads").resolve(previousPictureName).toAbsolutePath();
-				File previousPictureFile = previousPicturePath.toFile();
-
-				if(previousPictureFile.exists() && previousPictureFile.canRead()) {
-					previousPictureFile.delete();
-				}
-			}
+			uploadService.delete(previousPictureName);
 			
 			customerService.delete(id);
 		} catch (DataAccessException e) {
@@ -195,31 +192,19 @@ public class CustomerRestController {
 		Customer customer = customerService.findById(id);
 		
 		if(!file.isEmpty()) {
-			String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename().replace(" ", "");
-			Path fileRoute = Paths.get("uploads").resolve(fileName).toAbsolutePath();
-			log.info(fileRoute.toString());
-			
+			String fileName = null;
 			try {
-				Files.copy(file.getInputStream(), fileRoute);
+				fileName = uploadService.copy(file);
 			} catch (IOException e) {
-				response.put("customer", "Error uploading image to server " + fileName);
+				response.put("customer", "Error uploading image to server");
 				response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
 			String previousPictureName = customer.getPicture();
 			
-			if(previousPictureName !=null && previousPictureName.length() > 0) {
-				Path previousPicturePath = Paths.get("uploads").resolve(previousPictureName).toAbsolutePath();
-				File previousPictureFile = previousPicturePath.toFile();
-
-				if(previousPictureFile.exists() && previousPictureFile.canRead()) {
-					previousPictureFile.delete();
-				}
-			}
-			
+			uploadService.delete(previousPictureName);
 			customer.setPicture(fileName);
-			
 			customerService.save(customer);
 
 			response.put("customer", customer);
@@ -231,28 +216,14 @@ public class CustomerRestController {
 	
 	@GetMapping("/uploads/img/{pictureName:.+}")
 	public ResponseEntity<Resource> showPicture(@PathVariable String pictureName) {
-		Path fileRoute = Paths.get("uploads").resolve(pictureName).toAbsolutePath();
-		
-		log.info(fileRoute.toString());
-		
 		Resource resource = null;
 		
 		try {
-			resource = new UrlResource(fileRoute.toUri());
+			resource = uploadService.load(pictureName);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 		
-		if(!resource.exists() && !resource.isReadable()){
-			fileRoute = Paths.get("src/main/resources/static/pictures").resolve("no-user.png").toAbsolutePath();
-			try {
-				resource = new UrlResource(fileRoute.toUri());
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			}
-
-			log.error("Could not load image: " + pictureName);
-		}
 		HttpHeaders header = new HttpHeaders();
 		header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
 		
