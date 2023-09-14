@@ -62,4 +62,8 @@ export class FormComponent {
         }
       );
   }
+
+  compareRegion(obj1: Region, obj2: Region): boolean {
+    return obj1 === null || obj2 === null || obj1 === undefined || obj2 === undefined ? false : obj1.id === obj2.id;
+  }
 }
