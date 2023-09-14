@@ -244,7 +244,14 @@ public class CustomerRestController {
 		}
 		
 		if(!resource.exists() && !resource.isReadable()){
-			throw new RuntimeException("Could not load image: " + pictureName);
+			fileRoute = Paths.get("src/main/resources/static/pictures").resolve("no-user.png").toAbsolutePath();
+			try {
+				resource = new UrlResource(fileRoute.toUri());
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+
+			log.error("Could not load image: " + pictureName);
 		}
 		HttpHeaders header = new HttpHeaders();
 		header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
