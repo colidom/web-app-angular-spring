@@ -55,6 +55,15 @@
         </div>
       </div>
 
+      <div class="form-group row">
+        <label for="region" class="col-form-label col-sm-2">Region</label>
+        <div class="col-sm-6">
+          <select type="date" class="form-control" [(ngModel)]="customer.region" name="region">
+            <option *ngFor="let region of regions" [ngValue]="region">{{region.name}}</option>
+          </select>
+        </div>
+      </div>
+
       <div class="col-sm-12 text-center">
         <button class="btn btn-primary" role="button" (click)="create()" *ngIf="!customer.id; else elseBlock"
           [disabled]="!customerForm.form.valid">
