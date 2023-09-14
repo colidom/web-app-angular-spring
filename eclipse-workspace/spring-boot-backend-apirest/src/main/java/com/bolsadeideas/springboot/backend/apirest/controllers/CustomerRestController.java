@@ -35,22 +35,22 @@ import com.bolsadeideas.springboot.backend.apirest.models.services.UploadFileSer
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins= {"http://localhost:4200"})
+@CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
 @RequestMapping("/api")
 public class CustomerRestController {
-	
+
 	@Autowired
 	private ICustomerService customerService;
-	
+
 	@Autowired
 	private UploadFileServiceImpl uploadService;
-	
+
 	@GetMapping("/customers")
 	public List<Customer> index() {
 		return customerService.findAll();
 	}
-	
+
 	@GetMapping("/customers/page/{page}")
 	public Page<Customer> index(@PathVariable Integer page) {
 		Pageable pageable = PageRequest.of(page, 5);
@@ -59,75 +59,75 @@ public class CustomerRestController {
 
 	@GetMapping("/customers/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
-		
+
 		Customer customer = null;
 		Map<String, Object> response = new HashMap<>();
-		
+
 		try {
 			customer = customerService.findById(id);
-		} catch(DataAccessException e) {
+		} catch (DataAccessException e) {
 			response.put("message", "Error when querying in the database");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		if(customer == null) {
+		if (customer == null) {
 			response.put("message", "Customer ID: ".concat(id.toString().concat(" does not exists in the database!")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<Customer>(customer, HttpStatus.OK); 
+		return new ResponseEntity<Customer>(customer, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/customers")
 	public ResponseEntity<?> create(@Valid @RequestBody Customer customer, BindingResult result) {
-		
+
 		Customer newCustomer = null;
 		Map<String, Object> response = new HashMap<>();
-		
-		if(result.hasErrors()) {
-			List<String> errors= result.getFieldErrors()
-					.stream()
+
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream()
 					.map(err -> "Field '" + err.getField() + "' " + err.getDefaultMessage())
 					.collect(Collectors.toList());
-			
+
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
-		
+
 		try {
 			newCustomer = customerService.save(customer);
-		} catch(DataAccessException e) {
+		} catch (DataAccessException e) {
 			response.put("message", "Error when inserting value into database");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+
 		response.put("message", "Customer successfully created!");
 		response.put("customer", newCustomer);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("/customers/{id}")
-	public ResponseEntity<?> update(@Valid @RequestBody Customer customer, BindingResult result, @PathVariable Long id) {
-		
+	public ResponseEntity<?> update(@Valid @RequestBody Customer customer, BindingResult result,
+			@PathVariable Long id) {
+
 		Customer currentCustomer = customerService.findById(id);
 		Customer updatedCustomer = null;
 
 		Map<String, Object> response = new HashMap<>();
-		
-		if(result.hasErrors()) {
-			List<String> errors= result.getFieldErrors()
-					.stream()
+
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream()
 					.map(err -> "Field '" + err.getField() + "' " + err.getDefaultMessage())
 					.collect(Collectors.toList());
-			
+
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
-		
-		if(currentCustomer == null) {
-			response.put("message", "Error when editing. Customer ID: ".concat(id.toString().concat(" does not exists in the database!")));
+
+		if (currentCustomer == null) {
+			response.put("message", "Error when editing. Customer ID: "
+					.concat(id.toString().concat(" does not exists in the database!")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 
@@ -139,7 +139,7 @@ public class CustomerRestController {
 			currentCustomer.setCreatedAt(customer.getCreatedAt());
 
 			updatedCustomer = customerService.save(currentCustomer);
-		} catch(DataAccessException e) {
+		} catch (DataAccessException e) {
 			response.put("message", "Error when updating the value into database");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -147,23 +147,23 @@ public class CustomerRestController {
 
 		response.put("message", "Customer successfully updated!");
 		response.put("customer", updatedCustomer);
-		
+
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/customers/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
-		
+
 		Customer deleteCustomer = null;
 		Map<String, Object> response = new HashMap<>();
 
 		try {
 			deleteCustomer = customerService.findById(id);
-			
+
 			String previousPictureName = deleteCustomer.getPicture();
-			
+
 			uploadService.delete(previousPictureName);
-			
+
 			customerService.delete(id);
 		} catch (DataAccessException e) {
 			response.put("message", "Error when deleting the client from the database");
@@ -178,10 +178,10 @@ public class CustomerRestController {
 	@PostMapping("/customers/upload")
 	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, @RequestParam("id") Long id) {
 		Map<String, Object> response = new HashMap<>();
-		
+
 		Customer customer = customerService.findById(id);
-		
-		if(!file.isEmpty()) {
+
+		if (!file.isEmpty()) {
 			String fileName = null;
 			try {
 				fileName = uploadService.copy(file);
@@ -190,9 +190,9 @@ public class CustomerRestController {
 				response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-			
+
 			String previousPictureName = customer.getPicture();
-			
+
 			uploadService.delete(previousPictureName);
 			customer.setPicture(fileName);
 			customerService.save(customer);
@@ -200,23 +200,23 @@ public class CustomerRestController {
 			response.put("customer", customer);
 			response.put("message", "You have successfully uploaded the image: " + fileName);
 		}
-		
+
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping("/uploads/img/{pictureName:.+}")
 	public ResponseEntity<Resource> showPicture(@PathVariable String pictureName) {
 		Resource resource = null;
-		
+
 		try {
 			resource = uploadService.load(pictureName);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		
+
 		HttpHeaders header = new HttpHeaders();
 		header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
-		
+
 		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
 	}
 }

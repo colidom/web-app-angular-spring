@@ -17,78 +17,90 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name="customers")
+@Table(name = "customers")
 public class Customer implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	
-	@Size(min=3, max=15, message = "el tamaño tiene que estar entre 3 y 15")
-	@Column(nullable=false)
+
+	@Size(min = 3, max = 15, message = "el tamaño tiene que estar entre 3 y 15")
+	@Column(nullable = false)
 	@NotEmpty(message = "no puede estar vacío")
 	private String name;
-	
+
 	@NotEmpty(message = "no puede estar vacío")
 	private String surname;
-	
+
 	@NotEmpty(message = "no puede estar vacío")
 	@Email(message = "no es un email correcto")
-	@Column(nullable=false, unique=true)
+	@Column(nullable = false, unique = true)
 	private String email;
 	private String birthDate;
 
 	@NotNull(message = "no puede estar vacío")
-	@Column(name="created_at")
+	@Column(name = "created_at")
 	@Temporal(TemporalType.DATE)
 	private Date createdAt;
-	
+
 	private String picture;
 
 	public String getPicture() {
 		return picture;
 	}
+
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getSurname() {
 		return surname;
 	}
+
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getBirthDate() {
 		return birthDate;
 	}
+
 	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
 	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
+
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
+
 	/**
 	 * 
 	 */
