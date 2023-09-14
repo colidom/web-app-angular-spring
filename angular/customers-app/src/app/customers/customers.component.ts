@@ -41,6 +41,15 @@ export class CustomersComponent implements OnInit {
             this.paginator = response;
         });
     });
+
+    this.modalService.notifyUpload.subscribe(customer => {
+      this.customers = this.customers.map(originalCustomer => {
+        if (customer.id == originalCustomer.id) {
+          originalCustomer.picture = customer.picture
+        }
+        return originalCustomer
+      })
+    });
   }
 
   delete(customer: Customer): void {

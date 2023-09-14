@@ -49,6 +49,8 @@ export class DetailComponent implements OnInit {
           } else if (event.type === HttpEventType.Response) {
             let response: any = event.body;
             this.customer = response.customer as Customer;
+
+            this.modalService.notifyUpload.emit(this.customer);
             Swal.fire("Picture correctly uploaded!", response.message, "success");
           }
         });
