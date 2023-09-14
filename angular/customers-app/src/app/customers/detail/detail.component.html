@@ -1,12 +1,30 @@
 <div class="card bg-dark text-white">
     <div class="card-header">{{ title }}</div>
     <div class="card body">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <ul *ngIf="customer" class="list-group text-dark mb-3">
+                        <li class="list-group-item">{{customer.name}}</li>
+                        <li class="list-group-item">{{customer.surname}}</li>
+                        <li class="list-group-item">{{customer.birthDate}}</li>
+                        <li class="list-group-item">{{customer.email}}</li>
+                        <li class="list-group-item">{{customer.createdAt | date:"fullDate"}}</li>
 
-        <div class="input-group">
-            <input (change)="selectPicture($event)" type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
-                aria-label="Upload">
-            <button (click)="uploadPicture()"class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Upload Picture</button>
+                    </ul>
+                    <div class="input-group">
+                        <input (change)="selectPicture($event)" type="file" class="form-control" id="inputGroupFile04"
+                            aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                        <button (click)="uploadPicture()" class="btn btn-outline-secondary" type="button"
+                            id="inputGroupFileAddon04">Upload Picture</button>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <img *ngIf="customer?.picture" src="http://localhost:8080/api/uploads/img/{{customer.picture}}" alt="{{customer.picture}}" class="img-thumbnail rounded">
+                </div>
+            </div>
         </div>
+
 
     </div>
 </div>
