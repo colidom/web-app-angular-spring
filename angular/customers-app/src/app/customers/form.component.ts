@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Customer } from './customer';
+import { Region } from './region';
 import { CustomerService } from './customer.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -10,6 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class FormComponent {
   public customer: Customer = new Customer();
+  regions: Region[];
   public title: string = "Customer creation";
   public errors: string[];
 
@@ -28,7 +30,9 @@ export class FormComponent {
         this.customerService.getCustomer(id).subscribe(
           (customer) => this.customer = customer)
       }
-    })
+    });
+    this.customerService.getRegions()
+      .subscribe(regions => this.regions = regions);
   }
 
   create(): void {

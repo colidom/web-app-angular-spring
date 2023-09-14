@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { formatDate, DatePipe } from '@angular/common';
 
 import { Customer } from './customer';
+import { Region } from './region';
+
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -18,6 +20,10 @@ export class CustomerService {
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
   constructor(private http: HttpClient, private router: Router) { }
+
+  getRegions(): Observable<Region[]> {
+    return this.http.get<Region[]>(this.urlEndpoint + '/regions');
+  }
 
   getCustomers(page: number): Observable<any> {
     return this.http.get(this.urlEndpoint + '/page/' + page).pipe(
