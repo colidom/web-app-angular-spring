@@ -1,22 +1,16 @@
 package com.bolsadeideas.springboot.backend.apirest.controllers;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,8 +47,6 @@ public class CustomerRestController {
 	
 	@Autowired
 	private UploadFileServiceImpl uploadService;
-	
-	private final Logger log = LoggerFactory.getLogger(CustomerRestController.class);
 	
 	@GetMapping("/customers")
 	public List<Customer> index() {
