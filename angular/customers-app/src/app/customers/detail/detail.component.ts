@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Customer } from '../customer';
 import { CustomerService } from '../customer.service';
-import { ActivatedRoute } from '@angular/router';
+import { ModalService } from './modal.service';
 import Swal from "sweetalert2";
 import { HttpEventType } from '@angular/common/http';
 
@@ -16,10 +16,11 @@ export class DetailComponent implements OnInit {
   title: string = "Customer detail";
   selectedPicture: File;
   progress: number;
+  selectedCustomer: Customer;
 
   constructor(
     private customerService: CustomerService,
-    private activatedRoute: ActivatedRoute
+    public modalService: ModalService
   ) { }
 
   ngOnInit() {
@@ -53,4 +54,11 @@ export class DetailComponent implements OnInit {
         });
     }
   }
+
+  closeModal() {
+    this.modalService.closeModal();
+    this.selectedPicture = null;
+    this.progress = 0;
+  }
+
 }

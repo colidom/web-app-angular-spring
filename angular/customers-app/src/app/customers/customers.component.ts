@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Customer } from './customer';
 import { CustomerService } from './customer.service';
+import { ModalService } from './detail/modal.service';
 import Swal from 'sweetalert2';
 import { tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +18,8 @@ export class CustomersComponent implements OnInit {
 
   constructor(
     private customerService: CustomerService,
-    private activatedRoute: ActivatedRoute) { }
+    private modalService: ModalService,
+    private activatedRoute: ActivatedRoute,) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -68,7 +70,8 @@ export class CustomersComponent implements OnInit {
     })
   }
 
-  showModal(customer: Customer) {
+  openModal(customer: Customer) {
     this.selectedCustomer = customer;
+    this.modalService.openModal();
   }
 }
