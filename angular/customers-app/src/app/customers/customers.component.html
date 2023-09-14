@@ -16,6 +16,7 @@
     <table class="table table-bordered table-striped" *ngIf="customers && customers.length > 0">
       <thead>
         <tr>
+          <th>id</th>
           <th>Picture</th>
           <th>Name</th>
           <th>Surname</th>
@@ -28,6 +29,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let customer of customers">
+          <td>{{ customer.id }}</td>
           <td>
             <img (click)="openModal(customer)" *ngIf="customer?.picture"
               src="http://localhost:8080/api/uploads/img/{{customer.picture}}" alt="{{customer.picture}}"
