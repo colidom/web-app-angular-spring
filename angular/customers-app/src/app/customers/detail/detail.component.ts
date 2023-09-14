@@ -13,7 +13,7 @@ export class DetailComponent implements OnInit {
 
   customer: Customer;
   title: string = "Customer detail";
-  private selectedPicture: File;
+  selectedPicture: File;
 
   constructor(
     private customerService: CustomerService,
@@ -35,13 +35,22 @@ export class DetailComponent implements OnInit {
   selectPicture(event: any) {
     this.selectedPicture = event.target.files[0];
     console.log(this.selectedPicture);
+    if (this.selectedPicture.type.indexOf('image') < 0) {
+      Swal.fire("¡Error uploading profile picture!", "The selected file must be a picture! Please choose another one.", "error");
+      this.selectedPicture = null;
+    }
   }
 
   uploadPicture() {
-    this.customerService.uploadPicture(this.selectedPicture, this.customer.id)
-      .subscribe(customer => {
-        this.customer = customer;
-        Swal.fire("Picture correctly uploaded!", `Picture uploaded: ${customer.picture}`, "success");
-      })
+
+    if (!this.selectedPicture) {
+      Swal.fire("¡Error uploading profile picture!", "You must select a picture.", "error");
+    } else {
+      this.customerService.uploadPicture(this.selectedPicture, this.customer.id)
+        .subscribe(customer => {
+          this.customer = customer;
+          Swal.fire("Picture correctly uploaded!", `Picture uploaded: ${customer.picture}`, "success");
+        });
+    }
   }
 }

@@ -15,7 +15,7 @@
                     <div class="input-group">
                         <input (change)="selectPicture($event)" type="file" class="form-control" id="inputGroupFile04"
                             aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                        <button (click)="uploadPicture()" class="btn btn-outline-secondary" type="button"
+                        <button (click)="uploadPicture()" [disabled]="!selectedPicture" class="btn btn-outline-secondary" type="button"
                             id="inputGroupFileAddon04">Upload Picture</button>
                     </div>
                 </div>
