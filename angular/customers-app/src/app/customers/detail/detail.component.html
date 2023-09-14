@@ -12,15 +12,27 @@
                         <li class="list-group-item">{{customer.createdAt | date:"fullDate"}}</li>
 
                     </ul>
-                    <div class="input-group">
-                        <input (change)="selectPicture($event)" type="file" class="form-control" id="inputGroupFile04"
-                            aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                        <button (click)="uploadPicture()" [disabled]="!selectedPicture" class="btn btn-outline-secondary" type="button"
-                            id="inputGroupFileAddon04">Upload Picture</button>
+                    <div class="input-group mb-3">
+                        <div class="custom-file">
+                            <input (change)="selectPicture($event)" type="file" class="form-control"
+                                id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                            <button (click)="uploadPicture()" [disabled]="!selectedPicture"
+                                class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Upload
+                            </button>
+                        </div>
                     </div>
+
+                    <div *ngIf="progress > 0" class="progress" style="height: 40px;">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{width:progress+'%'}"
+                            attr.aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">
+                            {{progress}}%
+                        </div>
+                    </div>
+
                 </div>
                 <div class="col-sm">
-                    <img *ngIf="customer?.picture" src="http://localhost:8080/api/uploads/img/{{customer.picture}}" alt="{{customer.picture}}" class="img-thumbnail rounded">
+                    <img *ngIf="customer?.picture" src="http://localhost:8080/api/uploads/img/{{customer.picture}}"
+                        alt="{{customer.picture}}" class="img-thumbnail rounded">
                 </div>
             </div>
         </div>

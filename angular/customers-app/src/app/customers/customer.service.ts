@@ -3,7 +3,7 @@ import { formatDate, DatePipe } from '@angular/common';
 
 import { Customer } from './customer';
 import { Observable, throwError } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
@@ -98,18 +98,15 @@ export class CustomerService {
     )
   }
 
-  uploadPicture(file: File, id: any): Observable<Customer> {
+  uploadPicture(file: File, id: any): Observable<HttpEvent<{}>> {
     let formData = new FormData;
     formData.append("file", file);
     formData.append("id", id);
 
-    return this.http.post(`${this.urlEndpoint}/upload`, formData).pipe(
-      map((response: any) => response.customer as Customer),
-      catchError(e => {
-        console.error(e.error.message);
-        Swal.fire(e.error.message, e.error.error, 'error');
-        return throwError(() => e);
-      })
-    );
+    const req = new HttpRequest('POST', `${this.urlEndpoint}/upload`, formData, {
+      reportProgress: true
+    });
+
+    return this.http.request(req);
   }
 }
