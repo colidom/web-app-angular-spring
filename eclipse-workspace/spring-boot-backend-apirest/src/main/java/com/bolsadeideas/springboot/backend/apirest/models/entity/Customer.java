@@ -50,6 +50,7 @@ public class Customer implements Serializable {
 
 	private String picture;
 
+	@NotNull(message = "no puede estar vacío")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "region_id")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })

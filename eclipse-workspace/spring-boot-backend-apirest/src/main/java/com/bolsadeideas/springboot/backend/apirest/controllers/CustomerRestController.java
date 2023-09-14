@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Customer;
+import com.bolsadeideas.springboot.backend.apirest.models.entity.Region;
 import com.bolsadeideas.springboot.backend.apirest.models.services.ICustomerService;
 import com.bolsadeideas.springboot.backend.apirest.models.services.UploadFileServiceImpl;
 
@@ -137,6 +138,7 @@ public class CustomerRestController {
 			currentCustomer.setBirthDate(customer.getBirthDate());
 			currentCustomer.setEmail(customer.getEmail());
 			currentCustomer.setCreatedAt(customer.getCreatedAt());
+			currentCustomer.setRegion(customer.getRegion());
 
 			updatedCustomer = customerService.save(currentCustomer);
 		} catch (DataAccessException e) {
@@ -218,5 +220,10 @@ public class CustomerRestController {
 		header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
 
 		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
+	}
+	
+	@GetMapping("/customers/regions")
+	public List<Region> listRegions() {
+		return customerService.findAllRegions();
 	}
 }
