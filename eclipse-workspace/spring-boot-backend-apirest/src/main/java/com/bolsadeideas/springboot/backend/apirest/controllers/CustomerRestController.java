@@ -135,7 +135,6 @@ public class CustomerRestController {
 		try {
 			currentCustomer.setName(customer.getName());
 			currentCustomer.setSurname(customer.getSurname());
-			currentCustomer.setBirthDate(customer.getBirthDate());
 			currentCustomer.setEmail(customer.getEmail());
 			currentCustomer.setCreatedAt(customer.getCreatedAt());
 			currentCustomer.setRegion(customer.getRegion());
@@ -221,7 +220,7 @@ public class CustomerRestController {
 
 		return new ResponseEntity<Resource>(resource, header, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/customers/regions")
 	public List<Region> listRegions() {
 		return customerService.findAllRegions();

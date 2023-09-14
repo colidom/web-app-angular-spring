@@ -20,7 +20,6 @@
           <th>Picture</th>
           <th>Name</th>
           <th>Surname</th>
-          <th>Birthday</th>
           <th>Created at</th>
           <th>Email</th>
           <th>Edit</th>
@@ -35,18 +34,17 @@
               src="http://localhost:8080/api/uploads/img/{{customer.picture}}" alt="{{customer.picture}}"
               class="img-thumbnail rounded" style=" width:64px; cursor:pointer;">
             <img (click)="openModal(customer)" *ngIf="!customer?.picture"
-              src="http://localhost:8080/pictures/no-user.png" alt="no picture"
-              class="img-thumbnail rounded" style=" width:64px; cursor:pointer;">
+              src="http://localhost:8080/pictures/no-user.png" alt="no picture" class="img-thumbnail rounded"
+              style=" width:64px; cursor:pointer;">
           </td>
           <td>{{ customer.name }}</td>
           <td>{{ customer.surname }}</td>
-          <td>{{ customer.birthDate }}</td>
           <td>{{ customer.createdAt }}</td>
           <td>{{ customer.email }}</td>
           <td>
             <button type=" button" name="edit" [routerLink]="['/customers/form', customer.id]"
               class="btn btn-primary btn-sm">
-            Edit
+              Edit
             </button>
           </td>
           <td>

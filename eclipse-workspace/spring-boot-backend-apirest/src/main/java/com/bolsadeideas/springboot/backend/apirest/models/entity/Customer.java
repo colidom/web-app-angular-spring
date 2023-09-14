@@ -41,7 +41,6 @@ public class Customer implements Serializable {
 	@Email(message = "no es un email correcto")
 	@Column(nullable = false, unique = true)
 	private String email;
-	private String birthDate;
 
 	@NotNull(message = "no puede estar vacío")
 	@Column(name = "created_at")
@@ -86,14 +85,6 @@ public class Customer implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getBirthDate() {
-		return birthDate;
-	}
-
-	public void setBirthDate(String birthDate) {
-		this.birthDate = birthDate;
 	}
 
 	public Date getCreatedAt() {
