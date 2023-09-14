@@ -13,6 +13,7 @@ export class CustomersComponent implements OnInit {
 
   customers: Customer[] | undefined;
   paginator: any;
+  selectedCustomer: Customer;
 
   constructor(
     private customerService: CustomerService,
@@ -35,7 +36,7 @@ export class CustomersComponent implements OnInit {
           })
         ).subscribe(response => {
           this.customers = response.content as Customer[],
-          this.paginator = response;
+            this.paginator = response;
         });
     });
   }
@@ -65,5 +66,9 @@ export class CustomersComponent implements OnInit {
         )
       }
     })
+  }
+
+  showModal(customer: Customer) {
+    this.selectedCustomer = customer;
   }
 }

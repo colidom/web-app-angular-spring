@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Customer } from '../customer';
 import { CustomerService } from '../customer.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +12,7 @@ import { HttpEventType } from '@angular/common/http';
 })
 export class DetailComponent implements OnInit {
 
-  customer: Customer;
+  @Input() customer: Customer;
   title: string = "Customer detail";
   selectedPicture: File;
   progress: number;
@@ -23,15 +23,7 @@ export class DetailComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(params => {
-      let id: number = +params.get('id');
 
-      if (id) {
-        this.customerService.getCustomer(id).subscribe(customer => {
-          this.customer = customer;
-        })
-      }
-    })
   }
 
   selectPicture(event: any) {

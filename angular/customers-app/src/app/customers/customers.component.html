@@ -1,24 +1,19 @@
+<customer-detail *ngIf="selectedCustomer" [customer]="selectedCustomer"></customer-detail>
+
 <div class="card text-bg-primary mb-3">
   <div class="card-header text-center">Customers</div>
   <div class="card-body">
     <h5 class="card-title text-center">Customers list</h5>
 
     <div class="my-2 text-left">
-      <button
-        class="btn btn-rounded btn-dark"
-        type="button"
-        [routerLink]="['/customers/form']"
-      >
+      <button class="btn btn-rounded btn-dark" type="button" [routerLink]="['/customers/form']">
         Create customer
       </button>
     </div>
     <div *ngIf="customers && customers.length === 0" class="alert alert-info">
       No records in the database!
     </div>
-    <table
-      class="table table-bordered table-striped"
-      *ngIf="customers && customers.length > 0"
-    >
+    <table class="table table-bordered table-striped" *ngIf="customers && customers.length > 0">
       <thead>
         <tr>
           <th>Id</th>
@@ -33,30 +28,21 @@
       </thead>
       <tbody>
         <tr *ngFor="let customer of customers">
-          <td><button type="button" [routerLink]="['/customers/detail', customer.id]"
-            class="btn btn-success btn-sm">{{ customer.id }}</button></td>
+          <td><button type="button" (click)="showModal(customer)" class="btn btn-success btn-sm">{{
+              customer.id }}</button></td>
           <td>{{ customer.name }}</td>
           <td>{{ customer.surname }}</td>
           <td>{{ customer.birthDate }}</td>
           <td>{{ customer.createdAt }}</td>
           <td>{{ customer.email }}</td>
           <td>
-            <button
-              type="button"
-              name="edit"
-              [routerLink]="['/customers/form', customer.id]"
-              class="btn btn-primary btn-sm"
-            >
+            <button type="button" name="edit" [routerLink]="['/customers/form', customer.id]"
+              class="btn btn-primary btn-sm">
               Edit
             </button>
           </td>
           <td>
-            <button
-              type="button"
-              name="delete"
-              (click)="delete(customer)"
-              class="btn btn-danger"
-            >
+            <button type="button" name="delete" (click)="delete(customer)" class="btn btn-danger">
               Delete
             </button>
           </td>
