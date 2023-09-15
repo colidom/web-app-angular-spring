@@ -16,56 +16,62 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class UploadFileServiceImpl implements IUploadFileService {
-
-	private final Logger log = LoggerFactory.getLogger(UploadFileServiceImpl.class);
-	private final static String UPLOAD_DIR = "uploads";
+public class UploadFileServiceImpl implements IUploadFileService{
 	
+	private final Logger log = LoggerFactory.getLogger(UploadFileServiceImpl.class);
+	
+	private final static String DIRECTORIO_UPLOAD = "uploads";
+
 	@Override
-	public Resource load(String pictureName) throws MalformedURLException {
+	public Resource cargar(String nombreFoto) throws MalformedURLException {
 		
-		Path fileRoute = getPath(pictureName);
-		log.info(fileRoute.toString());
+		Path rutaArchivo = getPath(nombreFoto);
+		log.info(rutaArchivo.toString());
 		
-		Resource resource = new UrlResource(fileRoute.toUri());
+		Resource recurso = new UrlResource(rutaArchivo.toUri());
 		
-		if(!resource.exists() && !resource.isReadable()){
-			fileRoute = Paths.get("src/main/resources/static/pictures").resolve("no-user.png").toAbsolutePath();
-			resource = new UrlResource(fileRoute.toUri());
-			log.error("Could not load image: " + pictureName);
+		if(!recurso.exists() && !recurso.isReadable()) {
+			rutaArchivo = Paths.get("src/main/resources/static/images").resolve("no-usuario.png").toAbsolutePath();
+			
+			recurso = new UrlResource(rutaArchivo.toUri());
+			
+			log.error("Error no se pudo cargar la imagen: " + nombreFoto);
+			
 		}
-		return resource;
+		return recurso;
 	}
 
 	@Override
-	public String copy(MultipartFile file) throws IOException {
+	public String copiar(MultipartFile archivo) throws IOException {
 		
-		String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename().replace(" ", "");
+		String nombreArchivo = UUID.randomUUID().toString() + "_" +  archivo.getOriginalFilename().replace(" ", "");
 		
-		Path fileRoute = getPath(fileName);
-		log.info(fileRoute.toString());
-		Files.copy(file.getInputStream(), fileRoute);
+		Path rutaArchivo = getPath(nombreArchivo);
+		log.info(rutaArchivo.toString());
 		
-		return fileName;
+		Files.copy(archivo.getInputStream(), rutaArchivo);
+		
+		return nombreArchivo;
 	}
 
 	@Override
-	public boolean delete(String pictureName) {
-		if(pictureName != null && pictureName.length() > 0) {
-			Path previousPicturePath = Paths.get("uploads").resolve(pictureName).toAbsolutePath();
-			File previousPictureFile = previousPicturePath.toFile();
-
-			if(previousPictureFile.exists() && previousPictureFile.canRead()) {
-				previousPictureFile.delete();
+	public boolean eliminar(String nombreFoto) {
+		
+		if(nombreFoto !=null && nombreFoto.length() >0) {
+			Path rutaFotoAnterior = Paths.get("uploads").resolve(nombreFoto).toAbsolutePath();
+			File archivoFotoAnterior = rutaFotoAnterior.toFile();
+			if(archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
+				archivoFotoAnterior.delete();
 				return true;
 			}
 		}
+		
 		return false;
 	}
 
 	@Override
-	public Path getPath(String pictureName) {
-		return Paths.get(UPLOAD_DIR).resolve(pictureName).toAbsolutePath();
+	public Path getPath(String nombreFoto) {
+		return Paths.get(DIRECTORIO_UPLOAD).resolve(nombreFoto).toAbsolutePath();
 	}
 
 }
